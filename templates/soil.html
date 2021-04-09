@@ -1,0 +1,119 @@
+{% extends "index.html" %}
+{% block content %}
+<main>
+    <div class="container-fluid">
+        <h1 class="mt-4">Soil Moisture<i class="fas fa-thermometer-half" style="margin-left: 0.5em;"></i></h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="{{url_for('dashboard', measurement = 'moisture')}}">Dashboard</a></li>
+            <li class="breadcrumb-item active">Soil Moisture</li>
+        </ol>
+        <!-- <div class="card mb-4">
+            <div class="card-body">
+                Chart.js is a third party plugin that is used to generate the charts in this template. The charts below have been customized - for further customization options, please visit the official
+                <a target="_blank" href="https://www.chartjs.org/docs/latest/">Chart.js documentation</a>
+                .
+            </div>
+        </div> -->
+        <!-- <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-chart-area mr-1"></i>
+                Area Chart Example
+            </div>
+            <div class="card-body"><canvas id="myAreaChart" width="100%" height="30"></canvas></div>
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+        </div> -->
+        <div class="content">
+            <div class="cards">
+                <div class="card moisture">
+                    <p class="card-title"><i class="fas fa-thermometer-half"></i> BOARD #1 - SOIL MOISTURE</p><p><span class="reading"><span id="value-node-1">{% if data.node1.value %}{{ data.node1.value }}{% else %}0{% endif %}</span>&#13271;</span></p><p class="timestamp">Last Reading: <span id="last-node-1">{% if data.node1.time %}{{ data.node1.time }}{% else %}0{% endif %}</span></p>
+                </div>
+                <div class="card moisture">
+                    <p class="card-title"><i class="fas fa-thermometer-half"></i> BOARD #2 - SOIL MOISTURE</p><p><span class="reading"><span id="value-node-2">{% if data.node2.value %}{{ data.node2.value }}{% else %}0{% endif %}</span>&#13271;</span></p><p class="timestamp">Last Reading: <span id="last-node-2">{% if data.node2.time %}{{ data.node2.time }}{% else %}0{% endif %}</span></p>
+                </div>
+                <div class="card moisture">
+                    <p class="card-title"><i class="fas fa-thermometer-half"></i> BOARD #3 - SOIL MOISTURE</p><p><span class="reading"><span id="value-node-3">{% if data.node3.value %}{{ data.node3.value }}{% else %}0{% endif %}</span>&#13271;</span></p><p class="timestamp">Last Reading: <span id="last-node-3">{% if data.node3.time %}{{ data.node3.time }}{% else %}0{% endif %}</span></p>
+                </div>
+                <div class="card moisture">
+                    <p class="card-title"><i class="fas fa-thermometer-half"></i> BOARD #4 - SOIL MOISTURE</p><p><span class="reading"><span id="value-node-4">{% if data.node4.value %}{{ data.node4.value }}{% else %}0{% endif %}</span>&#13271;</span></p><p class="timestamp">Last Reading: <span id="last-node-4">{% if data.node4.time %}{{ data.node4.time }}{% else %}0{% endif %}</span></p>
+                </div>
+                <div class="card moisture">
+                    <p class="card-title"><i class="fas fa-thermometer-half"></i> BOARD #5 - SOIL MOISTURE</p><p><span class="reading"><span id="value-node-5">{% if data.node5.value %}{{ data.node5.value }}{% else %}0{% endif %}</span>&#13271;</span></p><p class="timestamp">Last Reading: <span id="last-node-5">{% if data.node5.time %}{{ data.node5.time }}{% else %}0{% endif %}</span></p>
+                </div>
+                <div class="card moisture">
+                    <p class="card-title"><i class="fas fa-thermometer-half"></i> BOARD #6 - SOIL MOISTURE</p><p><span class="reading"><span id="value-node-6">{% if data.node6.value %}{{ data.node6.value }}{% else %}0{% endif %}</span>&#13271;</span></p><p class="timestamp">Last Reading: <span id="last-node-6">{% if data.node6.time %}{{ data.node6.time }}{% else %}0{% endif %}</span></p>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="row">
+            <div class="col-lg-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-chart-bar mr-1"></i>
+                        Bar Chart Example
+                    </div>
+                    <div class="card-body"><canvas id="myBarChart" width="100%" height="50"></canvas></div>
+                    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-chart-pie mr-1"></i>
+                        Pie Chart Example
+                    </div>
+                    <div class="card-body"><canvas id="myPieChart" width="100%" height="50"></canvas></div>
+                    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</main>
+{% endblock content %}
+
+{% block soil %}
+<script>
+    var sourceNode1 = new EventSource("/data/moisture/1?timeformat=datetime")
+    sourceNode1.onmessage = function (event) {
+        const data = JSON.parse(event.data);
+        $('#value-node-1').html(data.value);
+        $('#last-node-1').html(data.time)
+}
+
+var sourceNode2 = new EventSource("/data/moisture/2?timeformat=datetime")
+sourceNode2.onmessage = function (event) {
+    const data = JSON.parse(event.data);
+    $('#value-node-2').html(data.value);
+    $('#last-node-2').html(data.time)
+}
+
+var sourceNode3 = new EventSource("/data/moisture/3?timeformat=datetime")
+sourceNode3.onmessage = function (event) {
+    const data = JSON.parse(event.data);
+    $('#value-node-3').html(data.value);
+    $('#last-node-3').html(data.time)
+}
+
+var sourceNode4 = new EventSource("/data/moisture/4?timeformat=datetime")
+sourceNode4.onmessage = function (event) {
+    const data = JSON.parse(event.data);
+    $('#value-node-4').html(data.value);
+    $('#last-node-4').html(data.time)
+}
+
+var sourceNode5 = new EventSource("/data/moisture/5?timeformat=datetime")
+sourceNode5.onmessage = function (event) {
+    const data = JSON.parse(event.data);
+    $('#value-node-5').html(data.value);
+    $('#last-node-5').html(data.time)
+}
+
+var sourceNode6 = new EventSource("/data/moisture/6?timeformat=datetime")
+sourceNode6.onmessage = function (event) {
+    const data = JSON.parse(event.data);
+    $('#value-node-6').html(data.value);
+    $('#last-node-6').html(data.time)
+}
+</script>
+{% endblock %}
+
+               
