@@ -2,7 +2,7 @@ from influxdb import InfluxDBClient
 from datetime import datetime
 
 def getData(query):
-    client = InfluxDBClient(host='192.168.43.70', port=8086, username='iot', password='iot12345')
+    client = InfluxDBClient(host='127.0.0.1', port=8086, username='iot', password='iot12345')
     client.switch_database('iot_multinode_DB')
     result = client.query(query).raw
 
