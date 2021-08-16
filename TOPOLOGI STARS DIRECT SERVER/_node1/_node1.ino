@@ -39,7 +39,7 @@ Adafruit_BME280 bme(BME_CS, BME_MOSI, BME_MISO, BME_SCK); // software SPI
 
 const char* ssid = "Agus";
 const char* password = "nieAndra01";
-const char* mqtt_server = "192.168.43.71";
+const char* mqtt_server = "192.168.43.113";
 const char* mqtt_user = "admin";
 const char* mqtt_password = "12345coba";
 
