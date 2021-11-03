@@ -1,0 +1,40 @@
+import pika
+import json
+import logging
+from influxdb import InfluxDBClient
+
+def insert_to_influx(data):
+    msg = json.loads(data)
+    client = InfluxDBClient(host='127.0.0.1', port=8086, username='iot', password='iot12345')
+    namenode = 'node' + str(msg['node'])
+    client.switch_database('iot_multinode_DB')
+
+    for i in msg:
+        if i != 'node':
+            value = msg[i]
+            measurement = i
+            data = [{
+                "measurement": measurement,
+                "tags": {
+                    "name": "IoT"
+                },
+                "fields": {
+                    "value": value,
+                    "namenode": namenode,
+                }
+            }]
+
+            client.write_points(data)
+
+credentials = pika.PlainCredentials('admin', '12345coba')
+
+parameters = pika.ConnectionParameters('127.0.0.1', 5672, '/', credentials)
+
+connection = pika.BlockingConnection(parameters)
+channel = connection.channel()
+
+channel.exchange_declare(exchange='test-exchange', exchange_type='topic', durable=True)
+
+result=channel.queue_declare(queue='', exclusive=True)
+
+queue_name=result.method.queue
